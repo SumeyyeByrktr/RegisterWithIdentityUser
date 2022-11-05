@@ -1,0 +1,68 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>İstanbul için güncel hava durumu</p>
+    <p id="weather"></p>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $.ajax({
+            type: "GET",
+            url: "https://api.collectapi.com/weather/getWeather?data.lang=tr&data.city=istanbul",
+            headers: {
+                "authorization": "apikey 4aMqx3lqg0RzP11Hf629FE:6VlynZCT0iUxkNsRtVZlzp"
+            },
+            success: function (response) {
+                if (response.success) {
+                    var lastIstanbul = response.result[0];
+                    document.getElementById("weather").textContent = "Sıcaklık: " + lastIstanbul.degree + "°C" + " Gün: " + lastIstanbul.day + " Hava: " + lastIstanbul.description + " En Düşük: " + lastIstanbul.min + "°C" + " En Yüksek: " + lastIstanbul.max + "°C" + " Gece: " + lastIstanbul.night + "°C";
+                }
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+
+    });
+
+    // örnek response :
+    //{
+    //    "success": true,
+    //        "city": "istanbul",
+    //            "result": [
+    //                {
+    //                    "date": "06.11.2022",
+    //                    "day": "Pazar",
+    //                    "icon": "https://cdnydm.com/media/7FbW8fgzadAEm9nU6aT7Iw.png",
+    //                    "description": "kapalı",
+    //                    "status": "Clouds",
+    //                    "degree": "20.02",
+    //                    "min": "15.68",
+    //                    "max": "20.62",
+    //                    "night": "15.93",
+    //                    "humidity": "35"
+    //                },
+    //                {
+    //                    "date": "07.11.2022",
+    //                    "day": "Pazartesi",
+    //                    "icon": "https://cdnydm.com/media/7FbW8fgzadAEm9nU6aT7Iw.png",
+    //                    "description": "kapalı",
+    //                    "status": "Clouds",
+    //                    "degree": "15.52",
+    //                    "min": "13.81",
+    //                    "max": "15.84",
+    //                    "night": "13.81",
+    //                    "humidity": "72"
+    //                },
+    //            ]
+    //}
+</script>
